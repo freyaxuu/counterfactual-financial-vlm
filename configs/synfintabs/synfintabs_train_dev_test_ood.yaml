@@ -1,0 +1,36 @@
+dataset:
+  id: ethanbradley/synfintabs
+  revision: 88dec4fbebe890d66f719eff5964f1c7152a60f5
+  split: train
+  streaming: true
+
+training_data:
+  name: synfintabs_train_dev_test_ood_cfv1_seed_20260804
+  seed: 20260804
+  record_schema: canonical_group_cf_v1
+  splits:
+    train:
+      groups: 1000
+    dev:
+      groups: 200
+    test:
+      groups: 400
+  max_queries_per_table: 2
+  # Reserved for OOD test: template "5" is the SynFinTabs "Company Report"
+  # style, the only theme of its kind (themes 1-4 are all "Spreadsheet style"
+  # variants of one another, so holding out just one of those would leave
+  # sibling variants in train -- a much weaker OOD signal). Theme "0"
+  # ("Companies House style") is 40% of the corpus and the most realistic
+  # financial-statement layout, so it stays in-distribution rather than being
+  # withheld from training. 5000-table scan on 2026-08-04
+  # (scripts/scan_synfintabs_template_families.py) showed template "5" at
+  # 611/5000 raw/flattenable/has-questions tables (~12.2%, matching the
+  # official 12,000/100,000 share) -- ample margin over the 400 accepted test
+  # groups needed after per-question gating attrition.
+  ood_template_ids: ["5"]
+
+output:
+  root_dir: ~/runs/cf-vlm-financial-grounding/synfintabs_train_dev_test_ood_cfv1_seed_20260804
+  images_dir: images
+  manifest_prefix: manifest
+  summary_file: summary.json

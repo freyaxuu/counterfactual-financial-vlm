@@ -1,0 +1,60 @@
+experiment:
+  name: tatqa_train_dev_cfv1_cf_augmentation_lora
+  seed: 20260808
+  selection_metric: numeric_accuracy
+
+model:
+  base_model_path: /path/to/models/Qwen3-VL-4B-Instruct
+  local_files_only: true
+  device_map: auto
+  torch_dtype: bfloat16
+  attn_implementation:
+  gradient_checkpointing: true
+
+data:
+  root_dir: ~/runs/cf-vlm-financial-grounding/tatqa_train_dev_cfv1_seed20260808
+  train_manifest: manifest_train.jsonl
+  dev_manifest: manifest_dev.jsonl
+  prompt_style: standard_qa
+
+# 1 cycle = 3 epoch-blocks (one per CF type) = each of the 1156 train groups
+# visited 3 times total, same group-visit budget convention as the
+# SynFinTabs cf_augmentation_lora config.
+cf_cycle:
+  num_cycles: 1
+
+lora:
+  r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  bias: none
+  task_type: CAUSAL_LM
+  target_modules:
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+    - gate_proj
+    - up_proj
+    - down_proj
+
+training:
+  per_device_train_batch_size: 1
+  gradient_accumulation_steps: 16
+  learning_rate: 0.0002
+  weight_decay: 0.0
+  warmup_ratio: 0.03
+  lr_scheduler_type: cosine
+  logging_steps: 10
+  save_steps: 100
+  save_total_limit: 3
+  save_strategy: steps
+  bf16: true
+  fp16: false
+  gradient_checkpointing: true
+  max_grad_norm: 1.0
+  dataloader_num_workers: 0
+  report_to: none
+
+output:
+  root_dir: ~/runs/cf-vlm-financial-grounding/tatqa_train_dev_cfv1_cf_augmentation_lora_seed_20260808

@@ -1,0 +1,17 @@
+dataset:
+  id: next-tat/TAT-QA
+  revision: c96247f
+  split: dev
+  qa_path: data/public/tatqa/tatqa_dataset_dev.json
+
+test_data:
+  name: tatqa_source_rerender_test
+  seed: 20260807
+  max_questions: 0
+  max_documents: 0
+
+output:
+  root_dir: ~/runs/cf-vlm-financial-grounding/tatqa_source_rerender_test_seed_20260807
+  images_dir: images
+  manifest_file: manifest.jsonl
+  summary_file: summary.json

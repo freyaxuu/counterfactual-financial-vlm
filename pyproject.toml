@@ -1,0 +1,24 @@
+[project]
+name = "counterfactual-financial-vlm"
+version = "0.1.0"
+description = "Counterfactual grounding experiments for financial table VLM extraction."
+requires-python = ">=3.10"
+dependencies = [
+    "datasets>=2.19",
+    "pillow>=10",
+    "pymupdf>=1.24",
+    "pyyaml>=6",
+]
+
+[project.optional-dependencies]
+train = [
+    "accelerate>=0.33",
+    "peft>=0.12",
+    "torch>=2.3",
+    "transformers>=4.52",
+]
+test = []
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

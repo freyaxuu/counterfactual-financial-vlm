@@ -1,0 +1,17 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+*.egg-info/
+data/private/
+data/public/
+data/raw_company/
+outputs/
+.venv-review/
+.venv-dataprep/
+checkpoints/
+wandb/
+mlruns/
+.env
+*.pem
+*.key
+.pytest_cache/
